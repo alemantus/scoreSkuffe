@@ -1,4 +1,5 @@
 import RPi.GPIO as GPIO
+import sys
 
 # import the library
 from RpiMotorLib import RpiMotorLib
@@ -15,7 +16,7 @@ mymotortest = RpiMotorLib.A4988Nema(direction, step, GPIO_pins, "A4988")
 
 
 # call the function, pass the arguments
-mymotortest.motor_go(False, "Full" , 1000, .002, False, .05)
+mymotortest.motor_go(int(sys.argv[1]), "Full" , int(sys.argv[2]), .01, True, .05)
 
 mymotortest.motor_stop()
 
