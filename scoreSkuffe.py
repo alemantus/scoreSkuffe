@@ -1,6 +1,6 @@
 import RPi.GPIO as GPIO
 import sys
-
+from endStop import endStop
 # import the library
 from RpiMotorLib import RpiMotorLib
 
@@ -14,9 +14,16 @@ step = 22       # Step -> GPIO Pin
 # Declare an named instance of class pass GPIO pins numbers
 mymotortest = RpiMotorLib.A4988Nema(direction, step, GPIO_pins, "A4988")
 
+inStop = endStop(19)
+outStop = endStop(16)
 
 # call the function, pass the arguments
-mymotortest.motor_go(int(sys.argv[1]), "Full" , int(sys.argv[2]), .01, True, .05)
+while(outStop.readEndstop() == 1):
+    mymotortest.motor_go(True, "Full" , 20, .002, True, 0)
+
+while(inStop.readEndstop() == 1):
+    mymotortest.motor_go(False, "Full" , 20, .004, True, 0)
+
 
 mymotortest.motor_stop()
 
